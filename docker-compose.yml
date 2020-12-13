@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  doggies-db:
+    image: mysql:latest
+    ports:
+      - "32000:3306"
+    volumes:
+      - ./init-db.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  script:
+    build: .
+    image: doggie-bot:latest
+    depends_on:
+      - doggies-db
+    environment:
+      - MAILJET_API_KEY = ''
+      - MAILJET_API_SECRET = ''
+      - EMAIL = ''
+      - NAME = ''

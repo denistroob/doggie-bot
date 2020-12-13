@@ -1,2 +1,2 @@
-# doggie-bot
-Notifies you when new dogs are added on dogs.ie
+# Doggie-bot WIP
+Bot that notifies when new puppies/dogs are being added for sale on website
