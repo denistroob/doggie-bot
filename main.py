@@ -9,8 +9,7 @@ from mailjet_rest import Client
 time.sleep(20)
 
 # Website to snif
-url = 'https://dogs.ie/dogs/golden-retriever/?filter=yes&breed=18&gender=&county=all&sort='
-r = requests.get(url)
+website_search_url = 'https://dogs.ie/dogs/golden-retriever/?filter=yes&breed=18&gender=&county=all&sort='
 
 # Mysql Config
 db = mysql.connector.connect(
@@ -42,8 +41,6 @@ def add_new_dog(dog_id, title, url):
   values = (dog_id, title, url)
   cursor.execute(sql, values)
   print('Dog added to DB: ', values)
-  print('Notification Email Sent.')
-  notify(dog_id, title, url)
   db.commit()
 
 def notify(dog_id, title, url):
@@ -69,14 +66,13 @@ def notify(dog_id, title, url):
     ]
   }
   result = mailjet.send.create(data=data)
-  print(result.status_code)
-  print(result.json())
+  print('Notification Email Sent.')
 
 while True:
   # Links for each dogs are formatted like this:
   # <td ><a href="https://dogs.ie/dog/880589/" title="Golden Retrievers     0876538908 for sale.">
   print('\nDogs.ie Search Starting...\n')
-  # print(r.text)
+  r = requests.get(website_search_url)
   dogs = re.findall(r"(?<=<td ><a href=\")(.*)(?=\")", r.text)
 
   for elem in dogs:
