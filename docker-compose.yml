@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   doggies-db:
-    image: mysql:latest
+    image: mysql:8.0.22
     ports:
       - "32000:3306"
     volumes:
