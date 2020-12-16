@@ -13,10 +13,9 @@ services:
   script:
     build: .
     image: doggie-bot:latest
+    volumes:
+      - ./main.py:/doggie-bot/main.py
     depends_on:
       - doggies-db
-    environment:
-      - MAILJET_API_KEY=
-      - MAILJET_API_SECRET=
-      - EMAIL=
-      - NAME=
+    env_file:
+      - ./secrets.env
