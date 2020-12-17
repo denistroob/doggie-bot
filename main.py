@@ -8,9 +8,6 @@ from mailjet_rest import Client
 # Wait for DB to be up (that's gross I know) 
 time.sleep(20)
 
-# Website to snif
-website_search_url = 'https://dogs.ie/dogs/golden-retriever/?filter=yes&breed=18&gender=&county=all&sort='
-
 # Mysql Config
 db = mysql.connector.connect(
   user="root",
@@ -57,8 +54,8 @@ def notify(dog_id, title, url):
             'Name': os.environ['NAME']
           }
         ],
-        'Subject': 'New Golden Retriever - ' + dog_id,
-        'HTMLPart': '<h3>New Golden Retriever on dogs.ie!</h3>' +
+        'Subject': 'New dog - ' + dog_id,
+        'HTMLPart': '<h3>New dog on dogs.ie!</h3>' +
                     '<p>Title: ' + title + '</p>' +
                     '<p>Link: <a href=' + url + '>' + url + '</a></p>',
         'CustomID': dog_id
@@ -71,22 +68,24 @@ def notify(dog_id, title, url):
 while True:
   # Links for each dogs are formatted like this:
   # <td ><a href="https://dogs.ie/dog/880589/" title="Golden Retrievers     0876538908 for sale.">
-  print('\nDogs.ie Search Starting...\n')
-  r = requests.get(website_search_url)
-  dogs = re.findall(r"(?<=<td ><a href=\")(.*)(?=\")", r.text)
+    
+  for search_url in os.environ['SEARCH_URLS'].split(','):
+    print('\nScanning url: ', search_url)
+    r = requests.get(search_url)
+    dogs = re.findall(r"(?<=<td ><a href=\")(.*)(?=\")", r.text)
 
-  for elem in dogs:
-    elem = elem.split('\"')
-    url = elem[0]
-    title = elem[2]
-    dog_id = url[20:-1]
-    print('\nDog ID:', dog_id)
-    print('Title:', title)
-    print('URL:', url)
+    for elem in dogs:
+      elem = elem.split('\"')
+      url = elem[0]
+      title = elem[2]
+      dog_id = url[20:-1]
+      print('\nDog ID:', dog_id)
+      print('Title:', title)
+      print('URL:', url)
 
-    if not dog_exists(dog_id):
-      add_new_dog(dog_id, title, url)
-      notify(dog_id, title, url)
+      if not dog_exists(dog_id):
+        add_new_dog(dog_id, title, url)
+        notify(dog_id, title, url)
 
   print('\nNext Search in 1 min.')
   time.sleep(60)
