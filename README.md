@@ -1,7 +1,7 @@
 # Doggie-bot WIP
-Bot that notifies when new puppies/dogs are being added for sale on website
+Bot that notifies when new puppies/dogs are being added for sale on [dogs.ie](https://dogs.ie/)
 
-1. Create a `secrets.env` file in the root directory and add your email address, name, [MailJet](https://www.mailjet.com/) api key and secret.
+1. Create a `config.env` file in the root directory and add your email address, name, [MailJet](https://www.mailjet.com/) api key and secret.
 
 Example:
 ```
