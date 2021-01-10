@@ -9,6 +9,6 @@ MAILJET_API_KEY=1234567890abcdefghijklmno
 MAILJET_API_SECRET=1234567890abcdefghijklmno
 EMAIL=youremail@gmail.com
 NAME=yourname
-SEARCH_URLS=['https://dogs.ie/dogs/golden-retriever/?filter=yes&breed=18&gender=&county=all&sort=','https://dogs.ie/dogs/springer-spaniel/?filter=yes&breed=45&gender=&county=all&sort=']
+SEARCH_URLS=['https://dogs.ie/dogs/golden-retriever/?filter=yes&breed=18&gender=&county=all&sort=','https://dogs.ie/dogs/cocker-spaniel/?filter=yes&breed=11&gender=&county=all&sort=']
 ```
 2. Run `make run`
