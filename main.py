@@ -22,6 +22,8 @@ cursor = db.cursor()
 
 mailjet = Client(auth=(os.environ['MAILJET_API_KEY'], os.environ['MAILJET_API_SECRET']), version='v3.1')
 
+first_run = True
+
 def dog_exists(dog_id):
   sql = "SELECT * FROM links WHERE dog_id = %s"
   values = (dog_id, )
@@ -85,7 +87,12 @@ while True:
 
       if not dog_exists(dog_id):
         add_new_dog(dog_id, title, url)
-        notify(dog_id, title, url)
+        if first_run == False:
+          notify(dog_id, title, url)
+
+  if first_run == True:
+    first_run = False
+    print('\nFirst Run, no notification email sent.')
 
   print('\nNext Search in 1 min.')
   time.sleep(60)
