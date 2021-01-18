@@ -19,7 +19,6 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 # Mailjet config
-
 mailjet = Client(auth=(os.environ['MAILJET_API_KEY'], os.environ['MAILJET_API_SECRET']), version='v3.1')
 
 first_run = True
@@ -64,7 +63,7 @@ def notify(dog_id, title, url):
       }
     ]
   }
-  result = mailjet.send.create(data=data)
+  mailjet.send.create(data=data)
   print('Notification Email Sent.')
 
 while True:
