@@ -71,9 +71,12 @@ while True:
   # <td ><a href="https://dogs.ie/dog/880589/" title="Golden Retrievers     0876538908 for sale.">
     
   for search_url in os.environ['SEARCH_URLS'].split(','):
-    print('\nScanning url: ', search_url)
-    r = requests.get(search_url)
-    dogs = re.findall(r"(?<=<td ><a href=\")(.*)(?=\")", r.text)
+    try:
+      r = requests.get(search_url)
+      dogs = re.findall(r"(?<=<td ><a href=\")(.*)(?=\")", r.text)
+    except:
+      dogs = ''
+      print('\nCould not connect to: ', search_url)
 
     for elem in dogs:
       elem = elem.split('\"')
